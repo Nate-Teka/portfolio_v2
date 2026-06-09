@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Define the animation shorthand */
+  --animate-bob: bob 5s ease-in-out infinite;
+
+  /* Define the keyframes movement */
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --bg: #14181a;
+  --bg-2: #1a201f;
+  --bg-nav: #151a1c;
+  --panel: #1e2625;
+  --panel-2: #232c2a;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #eef2f0;
+  --muted: #94a39d;
+  --muted-2: #6e7c77;
+  --accent: #34e0c4;
+  --accent-2: #c084fc;
+  --accent-deep: #18b89c;
+  --accent-deep-2: #313140;
+  --accent-soft: rgba(52, 224, 196, 0.12);
+  --maxw: 1200px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}

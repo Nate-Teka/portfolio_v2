@@ -1,0 +1,1126 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+.prettierrc
+AGENTS.md
+app/favicon.ico
+app/globals.css
+app/layout.tsx
+app/page.tsx
+CLAUDE.md
+eslint.config.mjs
+next.config.ts
+package.json
+postcss.config.mjs
+public/file.svg
+public/globe.svg
+public/next.svg
+public/vercel.svg
+public/window.svg
+README.md
+sections/about.tsx
+sections/contact.tsx
+sections/footer.tsx
+sections/hero.tsx
+sections/projects.tsx
+sections/services.tsx
+sections/skills_sections.tsx
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path=".prettierrc">
+{
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
+</file>
+
+<file path="AGENTS.md">
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
+</file>
+
+<file path="app/globals.css">
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Define the animation shorthand */
+  --animate-bob: bob 5s ease-in-out infinite;
+
+  /* Define the keyframes movement */
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --bg: #14181a;
+  --bg-2: #1a201f;
+  --bg-nav: #151a1c;
+  --panel: #1e2625;
+  --panel-2: #232c2a;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #eef2f0;
+  --muted: #94a39d;
+  --muted-2: #6e7c77;
+  --accent: #34e0c4;
+  --accent-2: #c084fc;
+  --accent-deep: #18b89c;
+  --accent-deep-2: #313140;
+  --accent-soft: rgba(52, 224, 196, 0.12);
+  --maxw: 1200px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+</file>
+
+<file path="app/layout.tsx">
+import "./globals.css";
+import { Mail } from "lucide-react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+
+export const metadata = { title: "Portfolio v2" };
+
+const links = [
+  { name: "<Home>", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Services", href: "#services" },
+  { name: "Contact", href: "#contact" },
+];
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className="flex min-h-full flex-col">
+        <header className="sticky top-0 z-50 flex h-19 justify-around border-b border-(--line) bg-(--bg-nav)/80 backdrop-blur-lg">
+          <div className="flex w-full items-center justify-around gap-6">
+            <a href="#home" className="logo gap-2.5 text-[1.15rem] font-bold">
+              <span className="text-(--accent-2)">&lt;N/&gt; </span>
+              Nathaniel Tekalgn
+            </a>
+            <nav
+              className="flex items-center gap-6 text-[0.92rem] text-(--muted)"
+              id="navLinks"
+            >
+              {links.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center gap-2 text-zinc-400 transition-all duration-200 hover:rounded-full hover:bg-(--panel-2) hover:p-2 hover:text-(--accent-2)"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+            <div className="flex items-center gap-x-2 [&_a]:transition-all [&_a]:duration-350 [&_a]:w-full [&_a]:rounded-full [&_a]:border [&_a]:border-(--line) [&_a]:hover:border-(--accent-2) [&_a]:bg-(--panel) [&_a]:p-2 [&_a]:text-(--muted)">
+              <a href="github.com " className="w-6 hover:text-(--accent-2)">
+                <FaLinkedinIn size={20}  />
+              </a>
+              <a href="github.com" className="w-6 hover:text-(--accent-2)">
+                <FaGithub size={20} />
+              </a>
+              <a className="icon-btn w-6 hover:text-(--accent-2)" href="#contact" aria-label="Email">
+                <Mail size={20}  />
+              </a>
+            </div>
+          </div>
+        </header>
+        {children}
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="app/page.tsx">
+import Image from "next/image";
+import Hero from "@/sections/hero";
+import About from "@/sections/about";
+import Skills from "@/sections/skills_sections";
+import Projects from "@/sections/projects";
+import Services from "@/sections/services";
+import Contact from "@/sections/contact";
+import Footer from "@/sections/footer";
+export default function Home() {
+  return (
+    <main className="bg-(--bg) flex flex-col items-center justify-center min-h-screen">
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Services />
+      <Contact />
+      <Footer />
+    </main>
+  );
+}
+</file>
+
+<file path="CLAUDE.md">
+@AGENTS.md
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="package.json">
+{
+  "name": "portfolio_v2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.7",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "repomix": "^1.14.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="sections/about.tsx">
+const statRow =
+  "flex items-baseline pb-4 gap-4  border-dashed border-b border-(--line)";
+const statLabelB = "text-(--text) block font-semibold font-mono text-[0.92rem]";
+const secKicker =
+  "my-4 space-x-2 text-(--accent-2) before:mr-2 before:mb-1 before:inline-block before:h-px before:w-8.5 before:bg-(--accent-2) before:align-middle before:content-['']";
+export default function AboutSection() {
+  return (
+    <section className="alt block p-20 bg-(--bg-2)" id="about">
+      <div className="wrap about-grid reveal grid grid-cols-[1.2fr_0.9fr]">
+        <div className="space-y-4">
+          <div className={`${secKicker} sec-kicker mono`}>01 — about_me()</div>
+          <h2 className="sec-title font-display text-[clamp(2rem,4vw,2.9rem)] leading-[1.05] font-extrabold">
+            Turning ideas into clean, shippable code.
+          </h2>
+          <p className="mt-6 text-(--muted) [&_strong]:text-(--text)">
+            I'm
+            <strong> Nathaniel Tekalgn</strong>, a junior developer focused on
+            the React ecosystem. I build responsive web apps with
+            <strong>React &amp; Next.js</strong>, cross-platform mobile apps
+            with
+            <strong> React Native &amp; Kotlin</strong>, and back things up with
+            <strong>Python</strong>
+            tooling and APIs.
+          </p>
+          <p className="text-(--muted)">
+            I care about the details that users feel but rarely name — fast load
+            times, smooth interactions, accessible markup, and interfaces that
+            just make sense. Every project is a chance to write a little cleaner
+            and ship a little better.
+          </p>
+          <p className="mt-6 text-(--muted) [&_strong]:text-(--text)">
+            Currently open to
+            <strong> internships, freelance work, and junior roles </strong>
+            where I can learn fast and contribute from day one.
+          </p>
+          <div className="hero-actions mt-9">
+            <a
+              className="btn ghost inline-block px-6.5 rounded-xl border border-(--line) py-3.5 hover:-translate-y-0.5 hover:border-(--accent-2) hover:text-(--accent-2) transition-all duration-200 ease-in-out "
+              href="#contact"
+            >
+              Let's work together
+            </a>
+          </div>
+        </div>
+        <div className="stat-card h-fit gap-4.5 justify-self-end rounded-[14px] border border-(--line) bg-(--panel) p-6.5">
+          <div className={`${statRow} stat-row`}>
+            <div className="stat-num font-display min-w-21 text-[2.2rem] font-bold text-(--accent-2)">
+              12+
+            </div>
+            <div className="stat-label text-(--muted)">
+              <b className={`${statLabelB}`}>Projects </b>
+              shipped &amp; in progress
+            </div>
+          </div>
+          <div className={`${statRow} stat-row`}>
+            <div className="stat-num font-display min-w-21 text-[2.2rem] font-bold text-(--accent-2)">
+              7
+            </div>
+            <div className="stat-label text-(--muted)">
+              <b className={`${statLabelB}`}>Languages </b>
+              JS · TS · Kotlin · Python &amp; more
+            </div>
+          </div>
+          <div className={`${statRow} stat-row border-none`}>
+            <div className="stat-num font-display min-w-21 text-[2.2rem] font-bold text-(--accent-2)">
+              ∞
+            </div>
+            <div className="stat-label text-(--muted)">
+              <b className={`${statLabelB}`}>Curiosity </b>
+              always learning the next thing
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="sections/contact.tsx">
+import { Mail, MapPin } from "lucide-react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+
+export default function ContactSection() {
+  return (
+    <section className="block alt p-20 bg-(--bg-2)" id="contact">
+      <div className="wrap space-y-4">
+        <div className="sec-head reveal space-y-4">
+          <div className="sec-kicker mono text-(--accent-2)">
+            05 — get_in_touch()
+          </div>
+          <h2 className="sec-title text-4xl font-bold">
+            Let's build something
+          </h2>
+          <p className="sec-sub text-(--muted)">
+            Got a project, a role, or just a question? Drop me a line — I reply
+            fast.
+          </p>
+        </div>
+        <div className="contact-grid reveal grid grid-cols-2 gap-12">
+          <div className="contact-info space-y-4 [&_a]:bg-(--panel) [&_a]:border [&_a]:border-(--line) [&_a]:rounded-xl [&_a]:p-4 [&_svg]:bg-(--accent-deep-2) [&_svg]:w-12 [&_svg]:p-3 [&_svg]:h-12 [&_svg]:rounded-xl [&_a]:flex [&_a]:items-center [&_a]:gap-x-4 [&__span]:flex [&_span]:flex-col ">
+            <a
+              className="ci-row flex "
+              href="mailto:nathaniel.tekalgn@email.com"
+            >
+              <span className="ci-ico">
+                <Mail />
+              </span>
+              <span className="flex flex-col">
+                <small>Email</small>
+                nathaniel.tekalgn@email.com
+              </span>
+            </a>
+            <a
+              className="ci-row"
+              href="https://github.com"
+              target="_blank"
+              rel="noopener"
+            >
+              <span className="ci-ico">
+                <FaGithub size={48} />
+              </span>
+              <span>
+                <small>GitHub</small>
+                github.com/nathaniel-t
+              </span>
+            </a>
+            <a
+              className="ci-row"
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noopener"
+            >
+              <span className="ci-ico">
+                <FaLinkedinIn size={24} />
+              </span>
+              <span>
+                <small>LinkedIn</small>
+                linkedin.com/in/nathaniel-t
+              </span>
+            </a>
+            <a className="ci-row" href="#">
+              <span className="ci-ico">
+                <MapPin />
+              </span>
+              <span>
+                <small>Location</small>
+                Available remote · worldwide
+              </span>
+            </a>
+          </div>
+          <form className="contact-form [&_input]:bg-(--bg) border border-(--line) rounded-xl p-8 space-y-8 bg-(--panel)" id="contactForm" noValidate>
+            <div className="form-row grid grid-cols-2 gap-4 bg">
+                <div className="field">
+                  <label htmlFor="cf-name">
+                    <span className="accent text-(--accent-2) tracking-wide ">const </span>
+                    name =
+                  </label>
+                  <input
+                    id="cf-name"
+                    name="name"
+                    type="text"
+                    placeholder="Your name"
+                    required
+                    className="w-full p-2 rounded-lg"
+                  />
+                </div>
+                <div className="field">
+                  <label htmlFor="cf-email">
+                    <span className="accent text-(--accent-2) tracking-wide">const </span>
+                    email =
+                  </label>
+                  <input
+                    id="cf-email"
+                    name="email"
+                    type="email"
+                    placeholder="you@email.com"
+                    required
+                    className="w-full p-2 rounded-lg"
+                  />
+                </div>
+              
+            </div>
+            <div className="field flex flex-col gap-2">
+              <label htmlFor="cf-subject w-full">
+                <span className="accent text-(--accent-2) tracking-wide">const </span>
+                subject =
+              </label>
+              <input
+                id="cf-subject"
+                className="w-full p-2 rounded-lg"
+                name="subject"
+                type="text"
+                placeholder="What's this about?"
+                
+              />
+            </div>
+            <div className="field flex flex-col gap-2">
+              <label htmlFor="cf-msg ">
+                <span className="accent">let </span>
+                message =
+                <br />
+              </label>
+              <textarea
+                id="cf-msg"
+                className="w-full min-h-32.5 bg-(--bg) rounded-xl p-2.5"
+                name="message"
+                placeholder="Tell me about your project..."
+                required
+              ></textarea>
+            </div>
+            <button className="btn solid" type="submit">
+              Send message →
+            </button>
+            <div className="form-ok" id="formOk"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="sections/footer.tsx">
+export default function FooterSection() {
+  return (
+    <footer className="site py-10">
+      <div className="wrap foot-grid flex justify-between items-center px-10">
+        <div className="">
+          <div className="logo mb-4">
+            <span className="br text-(--accent-2)">&lt;N/&gt; </span>
+            Nathaniel Tekalgn
+          </div>
+          <div className="foot-copy text-(--muted-2) text-sm">
+            © <span id="year">{new Date().getFullYear() + " "}</span>
+            Nathaniel Tekalgn — built with care &amp; clean code.
+          </div>
+        </div>
+        <nav className="foot-links space-x-4 text-(--muted)">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a className="to-top text-(--muted)" href="#home">
+          ↑ back to top
+        </a>
+      </div>
+    </footer>
+  );
+}
+</file>
+
+<file path="sections/hero.tsx">
+import { UserRound } from "lucide-react";
+const SKILLS = [
+  "React/ NextJs",
+  "React Native",
+  "TypeScript",
+  "Kotlin",
+  "C++",
+  "Java",
+  "MySQL",
+];
+const TAGSTYLE = "font-(mono|display) text-2xl";
+const lineNumbers = [
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+];
+const baseBadge = "absolute w-19 h-19 border border-(--line-strong) grid place-items-center bg-(--panel) rounded-full shadow-[0_18px_40px_-16px_rgba(0,0,0,0.6)] text-(--font-mono) font-bold text-[0.9rem] text-(--accent) animate-bob";
+const badgeSmall = "block text-[0.58rem] text-(--muted) font-extrabold";
+export default function HeroSection() {
+  return (
+    <section className="hero pl-9 pt-17.5 pb-22.5 " id="home">
+      {/* <div className="hero-watermark">React · Next · Mobile</div> */}
+      <div
+        className="code-rail absolute left-2 top-30 bottom-10 w-11.5 flex flex-col gap-1.5  opacity-50"
+        id="codeRail"
+      >
+        {lineNumbers.map((n) => (
+          <span key={n} className="line text-(--muted-2) text-[0.7rem]">
+            {n}
+          </span>
+        ))}
+      </div>
+      <div className="wrap hero-grid grid grid-cols-2">
+        <div className="hero-copy [&_.tag]:text-[0.95rem] [&_.tag]:tracking-[0.02rem] [&_.tag]:text-(--muted-2) space-y-4">
+          <div className="tag hero-eyebrow mb-0 ">&lt;/html&gt;</div>
+          <div className="tag ">&lt;body&gt;</div>
+          <div className="tag ">&lt;h1&gt;</div>
+          <h1 className="hero-title font-bold text-[clamp(2.8rem,6vw,5.2rem)] leading-[0.98]">
+            Hello, <br />
+            I'm <span className="accent text-(--accent-2)">Nathaniel</span>
+            ,<br />A Frontend Developer
+          </h1>
+          <div className="tag ">&lt;/h1&gt;</div>
+          <p className="hero-sub text-(--muted)">
+            // React &amp; React Native developer building fast, polished web
+            and mobile products.
+          </p>
+          <div className="tag">&lt;/body&gt;</div>
+          <div className="hero-actions flex justify-between gap-4 text-[1.05rem] mt-9 mb-9 [&_.btn]:cursor-pointer [&_.btn]:transition-all [&_.btn]:duration-200 [&_.btn]:ease-in-out [&_.btn]:border [&_.btn]:rounded-xl  [&_.btn]:px-6.5 [&_.btn]:py-3.5">
+            <a
+              className="btn hover:shadow-[0_8px_30px_-8px_var(--accent-2)] hover:bg-(--accent-2) hover:text-(--bg) border border-(--accent-2)"
+              href="#"
+              id="cvBtn"
+            >
+              View my CV
+            </a>
+            <a
+              className="btn ghost border border-(--line) hover:border-(--accent-2) hover:text-(--accent-2) hover:-translate-y-0.5"
+              href="#projects"
+            >
+              See my work
+            </a>
+            <a
+              className="btn link-underline border-none underline underline-offset-12 hover:text-(--accent-2)"
+              href="#contact"
+            >
+              Book a call →
+            </a>
+          </div>
+          <div className="hero-tags flex-wrap flex gap-x-4 gap-y-3 ">
+            {SKILLS.map((skill) => (
+              <span
+                key={skill}
+                className="border border-(--line) bg-(--panel-2) rounded-2xl px-3.25 py-1.5 text-sm text-(--muted)"
+              >
+                <span className="text-(--accent-2)">▹</span>
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="hero-portrait flex justify-center items-center">
+          <div
+            className="portrait-ring relative flex flex-col items-center  justify-center w-[min(420px,42vw)] aspect-[0.86]
+           overflow-visible border border-(--line) rounded-3xl rounded-bl-none"
+          >
+            <div className="portrait-disc absolute  rounded-[50%] flex items-center justify-center bg-[radial-gradient(circle_at_50%_40%,var(--panel-2),var(--bg-2)_70%)] after:content[''] after:absolute after:inset-0 after:rounded-full after:bg-[conic-gradient(from_210deg,transparent_60%,var(--accent-soft)_80%,transparent_95%)]"></div>
+            <div className="photo-ph portrait-img overflow-hidden  border-[1px_solid_var(--line)] after:content[''] after:absolute after:inset-0 after:bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0_12px,transparent_12px_24px)]">
+              <div className="ph-in relative z-1 flex flex-col items-center gap-3 color-[var(--muted-2)] text-center">
+                <div className="ph-ic w-21 h-21 rounded-full bg-(--accent-soft) grid place-items-center color-(--accent)">
+                  <UserRound className="w-10 h-10" strokeWidth={1.5} />
+                </div>
+                <div className="ph-cap ">Portrait photo</div>
+              </div>
+            </div>
+            <div className={`${baseBadge} ${badgeSmall}  float-badge b1 top-[8%] right-[-6%] delay-800`}>
+              TS<small>type-safe</small>
+            </div>
+            <div className={`${baseBadge} ${badgeSmall} float-badge b2 top-[26%] left-[-10%] delay-300`}>
+              Py<small>python</small>
+            </div>
+            <div className={`${baseBadge} ${badgeSmall} float-badge b3 bottom-[-4%] right-[8%] delay-450`}>
+              ⚛<small>React</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="sections/projects.tsx">
+import { ExternalLink } from "lucide-react";
+
+const PROJECTS = [
+  {
+    t: "Nova Dashboard",
+    u: "nova-app.vercel.app",
+    d: "A real-time analytics dashboard with live charts, dark mode, and a polished component system.",
+    tags: ["Next.js", "TypeScript", "Tailwind"],
+    live: "#",
+    code: "#",
+  },
+  {
+    t: "Trailmate",
+    u: "trailmate.app",
+    d: "A cross-platform hiking companion app — offline maps, GPS tracking, and trip logging.",
+    tags: ["React Native", "Kotlin", "Maps API"],
+    live: "#",
+    code: "#",
+  },
+  {
+    t: "DevNotes",
+    u: "devnotes.io",
+    d: "A markdown-first note app for developers with code blocks, tags, and instant search.",
+    tags: ["React", "Python", "FastAPI"],
+    live: "#",
+    code: "#",
+  },
+  {
+    t: "PixelShop",
+    u: "pixelshop.store",
+    d: "A headless e-commerce storefront with cart, checkout flow, and Stripe payments.",
+    tags: ["Next.js", "Stripe", "TypeScript"],
+    live: "#",
+    code: "#",
+  },
+];
+const secKicker =
+  "my-4 space-x-2 text-(--accent-2) before:mr-2 before:mb-1 before:inline-block before:h-px before:w-8.5 before:bg-(--accent-2) before:align-middle before:content-[''] tracking-wider";
+export default function ProjectsSection() {
+  return (
+    <section className="block alt px-20 py-24 bg-(--bg-2)" id="projects">
+      <div className="wrap space-y-4">
+        <div className="sec-head reveal space-y-2">
+          <div className={`${secKicker} sec-kicker mono tracking-wider`}>03 — projects.map()</div>
+          <h2 className="sec-title text-[clamp(2rem,4vw,2.9rem)] font-bold">Selected work</h2>
+          <p className="sec-sub text-(--muted)">A few of the things I've built:</p>
+        </div>
+        <div className="proj-grid reveal grid grid-cols-2 gap-4" id="projGrid">
+          {PROJECTS.map((p) => (
+            <div
+              key={p.t}
+              className="proj-card space-y-4 border border-(--line) rounded-xl bg-(--panel)"
+            >
+              <div className="proj-preview ">
+                <div className="url-link flex items-center gap-2 rounded-tl-xl rounded-tr-xl bg-(--bg) p-4">
+                  <div className="dots flex gap-1.5">
+                    <i className="w-2.5 h-2.5 bg-red-400 rounded-full"></i>
+                    <i className="w-2.5 h-2.5 bg-yellow-400 rounded-full"></i>
+                    <i className="w-2.5 h-2.5 bg-green-400 rounded-full"></i>
+                  </div>
+                  <div className="proj-link p-1.5 border bg-(--panel) border-(--line) tracking-wide rounded-sm text-(--muted-2) text-center text-sm grow ">
+                    <a href={p.u}>{p.u}</a>
+                  </div>
+                </div>
+                <div className="proj-screenshot h-66 overflow-hidden">
+                  <div className="ph-in">
+                    <div className="ph-ic">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                      >
+                        <rect x="3" y="4" width="18" height="15" rx="2" />
+                        <circle cx="8.5" cy="9" r="1.6" />
+                        <path d="m4 17 5-4 4 3 3-2 4 3" />
+                      </svg>
+                    </div>
+                    <div className="ph-cap">Project preview</div>
+                  </div>
+                </div>
+              </div>
+              <div className="description px-4 space-y-4 leading-relaxed">
+                <h3 className="text-2xl font-semibold">{p.t}</h3>
+                <p className="text-sm text-(--muted)">{p.d}</p>
+              </div>
+              <div className="proj-tags px-4 space-x-2 text-xs">
+                {p.tags.map((t) => (
+                  <span key={t} className="text-(--accent-2) bg-(--accent-deep-2) py-1.5 px-2 rounded">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div className="proj-actions flex gap-4 p-4 text-sm text-(--muted)">
+                <a className="btn ghost flex gap-2  hover:border-(--accent-2) hover:text-(--accent-2) transition-all duration-200 ease-in-out tracking-wide" href={p.live}>
+                  <ExternalLink className="h-4 w-4" />
+                  Live demo
+                </a>
+                <a className="btn ghost flex gap-2 hover:border-(--accent-2) hover:text-(--accent-2) transition-all duration-200 ease-in-out tracking-wide" href={p.code}>
+                  <p>{"< >"}</p>
+                  Source
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="sections/services.tsx">
+import { Monitor } from "lucide-react";
+import { Smartphone } from "lucide-react";
+import { Code } from "lucide-react";
+import { Gauge } from "lucide-react";
+import { PenLine } from "lucide-react";
+import { Webhook } from "lucide-react";
+
+const SERVICES = [
+  {
+    ic: <Monitor />,
+    t: "Web Development",
+    d: "Fast, responsive websites and web apps built with React, Next.js and modern tooling.",
+    n: "01",
+  },
+  {
+    ic: <Smartphone />,
+    t: "Mobile Apps",
+    d: "Cross-platform mobile apps with React Native, plus native Android in Kotlin.",
+    n: "02",
+  },
+  {
+    ic: <Code />,
+    t: "Frontend Engineering",
+    d: "Clean, accessible, component-based UIs and design systems that scale.",
+    n: "03",
+  },
+  {
+    ic: <Webhook />,
+    t: "APIs & Backend",
+    d: "REST APIs, integrations and automation with Python and Node.",
+    n: "04",
+  },
+  {
+    ic: <Gauge />,
+    t: "Performance & QA",
+    d: "Speed audits, accessibility passes, and testing so things stay solid.",
+    n: "05",
+  },
+  {
+    ic: <PenLine />,
+    t: "Design to Code",
+    d: "Pixel-accurate handoff from Figma to production-ready components.",
+    n: "06",
+  },
+];
+const secKicker =
+  "my-4 space-x-2 text-(--accent-2) before:mr-2 before:mb-1 before:inline-block before:h-px before:w-8.5 before:bg-(--accent-2) before:align-middle before:content-[''] tracking-wider";
+export default function ServicesSection() {
+  return (
+    <section className="block p-20" id="services">
+      <div className="wrap space-y-8">
+        <div className="sec-head reveal space-y-4">
+          <div className={`${secKicker} sec-kicker mono tracking-wider`}>
+            04 — services
+          </div>
+          <h2 className="sec-title text-[clamp(2rem,4vw,2.9rem)] font-bold">
+            How I can help
+          </h2>
+          <p className="sec-sub text-(--muted)">
+            From first wireframe to production deploy.
+          </p>
+        </div>
+        <div className="serv-grid reveal grid grid-cols-3 gap-4" id="servGrid">
+          {SERVICES.map((s) => (
+            <div
+              key={s.t}
+              className="serv-card space-y-1 rounded-2xl border border-(--line) bg-(--panel) p-6 transition-all hover:border-(--accent-2)"
+            >
+              <div className="serv-glyph flex justify-between [&_svg]:h-12 [&_svg]:w-12 [&_svg]:rounded-xl [&_svg]:bg-(--accent-deep-2) [&_svg]:stroke-(--accent-2) [&_svg]:stroke-[1.5] [&_svg]:p-3">
+                {s.ic}
+                <p className="text-[0.9rem] text-(--muted-2) ">{s.n}</p>
+              </div>
+              <h4 className="text-[1.12rem] font-semibold">{s.t}</h4>
+              <p className="text-sm text-[0.92rem] text-(--muted)">{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="sections/skills_sections.tsx">
+const SKILLS = [
+  {
+    g: "⚛",
+    n: "React / Next.js",
+    d: "Component-driven UIs, SSR/SSG, app router, hooks.",
+    l: 90,
+  },
+  {
+    g: "📱",
+    n: "React Native",
+    d: "Cross-platform iOS & Android from one codebase.",
+    l: 82,
+  },
+  {
+    g: "TS",
+    n: "TypeScript",
+    d: "Type-safe, maintainable code at scale.",
+    l: 85,
+  },
+  { g: "JS", n: "JavaScript", d: "Modern ES, async patterns, the DOM.", l: 92 },
+  {
+    g: "Kt",
+    n: "Kotlin",
+    d: "Native Android & clean, expressive logic.",
+    l: 74,
+  },
+  { g: "Py", n: "Python", d: "APIs, automation, scripting & data.", l: 80 },
+  {
+    g: "</>",
+    n: "HTML & CSS",
+    d: "Semantic markup, responsive, accessible.",
+    l: 95,
+  },
+  {
+    g: "◈",
+    n: "UI / UX",
+    d: "Layout, motion & detail that feels right.",
+    l: 78,
+  },
+];
+
+const secKicker =
+  "my-4 space-x-2 text-(--accent-2) before:mr-2 before:mb-1 before:inline-block before:h-px before:w-8.5 before:bg-(--accent-2) before:align-middle before:content-['']";
+
+export default function SkillsSections() {
+  return (
+    <section className="block px-20 py-24" id="skills">
+      <div className="wrap space-y-4">
+        <div className="sec-head reveal space-y-3">
+          <div className={`${secKicker} sec-kicker mono`}>
+            02 — tech_stack[]
+          </div>
+          <h2 className="sec-title text-[clamp(2rem,4vw,2.9rem)] font-bold">
+            Tools I build with
+          </h2>
+          <p className="sec-sub text-(--muted)">
+            A focused toolkit across web, mobile, and the backend that supports
+            them.
+          </p>
+        </div>
+        <div
+          className="skills-grid reveal grid grid-flow-col grid-rows-2 gap-4.5"
+          id="skillsGrid"
+        >
+          {SKILLS.map((s) => (
+            <div
+              key={s.n}
+              className="skill-card space-y-2 rounded-xl border border-(--line) bg-(--panel-2) px-5 py-5.5"
+            >
+              <span className="skill-glyph inline-block  bg-(--accent-deep-2) p-2 px-4 text-[18px] text-(--accent-2) rounded-md">
+                {s.g}
+              </span>
+              <h4 className="text-[1.12rem] font-semibold">{s.n}</h4>
+              <p className="text-sm text-[0.92rem] text-(--muted)">{s.d}</p>
+              <div className="lvl mt-3.5 h-1.25 overflow-hidden rounded-[3px] bg-[rgba(255,255,255,0.07)]">
+                <i
+                  className="block h-full rounded-[3px] bg-linear-to-r from-(--accent-deep-2) to-(--accent-2)"
+                  style={{ width: `${s.l}%` }}
+                ></i>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+</files>
