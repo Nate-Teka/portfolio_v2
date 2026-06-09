@@ -129,7 +129,7 @@ export default function ContactSection() {
                 required
               ></textarea>
             </div>
-            <button className="btn solid" type="submit">
+            <button className="btn solid hover:shadow-[0_8px_30px_-8px_var(--accent-2)] hover:bg-(--accent-2) rounded-lg cursor-pointer px-5 transition-all py-2 duration-200 hover:text-(--bg) border border-(--accent-2)" type="submit">
               Send message →
             </button>
             <div className="form-ok" id="formOk"></div>
