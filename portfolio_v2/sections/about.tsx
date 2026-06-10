@@ -6,7 +6,7 @@ const secKicker =
 export default function AboutSection() {
   return (
     <section className="alt block w-full py-20 bg-(--bg-2)" id="about">
-      <div className="wrap about-grid reveal grid grid-cols-[1.2fr_0.9fr]">
+      <div className="wrap about-grid reveal flex flex-col gap-8 lg:grid grid-cols-[1.2fr_0.9fr]">
         <div className="space-y-4">
           <div className={`${secKicker} sec-kicker mono`}>01 — about_me()</div>
           <h2 className="sec-title font-display text-[clamp(2rem,4vw,2.9rem)] leading-[1.05] font-extrabold">

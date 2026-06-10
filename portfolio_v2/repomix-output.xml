@@ -40,6 +40,7 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
+.env.example
 .gitignore
 .prettierrc
 AGENTS.md
@@ -70,6 +71,12 @@ tsconfig.json
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path=".env.example">
+NEXT_PUBLIC_EMAILJS_SERVICE_ID="emailjs serviceId here"
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID="you get"
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY="the gist"
+</file>
 
 <file path=".gitignore">
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -106,6 +113,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+
+#example of the env file i'm using
+!.env.example
 
 # vercel
 .vercel
@@ -192,6 +202,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-body);
 }
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 3.1rem;
+}
 </file>
 
 <file path="app/layout.tsx">
@@ -206,8 +222,8 @@ const links = [
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
-  { name: "Services", href: "#services" },
   { name: "Contact", href: "#contact" },
+  { name: "Services", href: "#services" },
 ];
 
 export default function RootLayout({
@@ -216,7 +232,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body className="flex min-h-full flex-col">
         <header className="sticky top-0 z-50 flex h-19 justify-around border-b border-(--line) bg-(--bg-nav)/80 backdrop-blur-lg">
           <div className="flex w-full items-center justify-around gap-6">
@@ -225,14 +241,14 @@ export default function RootLayout({
               Nathaniel Tekalgn
             </a>
             <nav
-              className="flex items-center gap-6 text-[0.92rem] text-(--muted)"
+              className="lg:flex hidden items-center gap-6 text-[0.92rem] text-(--muted)"
               id="navLinks"
             >
               {links.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="flex items-center gap-2 text-zinc-400 transition-all duration-200 hover:rounded-full hover:bg-(--panel-2) hover:p-2 hover:text-(--accent-2)"
+                  className="flex items-center gap-2 text-zinc-400 transition-all duration-200 hover:rounded-full hover:bg-(--panel-2) hover:p-2 hover:text-(--accent-2) "
                 >
                   {link.name}
                 </a>
@@ -329,9 +345,11 @@ export default nextConfig;
     "lint": "eslint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "next": "^16.2.7",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "react-toastify": "^11.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -425,7 +443,7 @@ const secKicker =
   "my-4 space-x-2 text-(--accent-2) before:mr-2 before:mb-1 before:inline-block before:h-px before:w-8.5 before:bg-(--accent-2) before:align-middle before:content-['']";
 export default function AboutSection() {
   return (
-    <section className="alt block p-20 bg-(--bg-2)" id="about">
+    <section className="alt block w-full py-20 bg-(--bg-2)" id="about">
       <div className="wrap about-grid reveal grid grid-cols-[1.2fr_0.9fr]">
         <div className="space-y-4">
           <div className={`${secKicker} sec-kicker mono`}>01 — about_me()</div>
@@ -498,12 +516,65 @@ export default function AboutSection() {
 </file>
 
 <file path="sections/contact.tsx">
+"use client";
 import { Mail, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
 
 export default function ContactSection() {
+  const [userInput, setUserInput] = useState({
+    fullName: "",
+    email: "",
+    subject: "",
+    messageBox: "",
+  });
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserInput({
+      ...userInput,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (
+      !userInput.fullName ||
+      !userInput.email ||
+      !userInput.subject ||
+      !userInput.messageBox
+    ) {
+      toast.error("Please fill out all fields");
+      return;
+    } else {
+      console.log(userInput);
+    }
+
+    try {
+      const emailParams = {
+        fullName: userInput.fullName,
+        email: userInput.email,
+        subject: userInput.subject,
+        messageBox: userInput.messageBox,
+      };
+      const res = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
+        emailParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
+      );
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+    }
+    console.log("Service:", process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
+    console.log("Template:", process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
+    console.log("Public Key:", process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
+  };
   return (
-    <section className="block alt p-20 bg-(--bg-2)" id="contact">
+    <section className="alt block w-full bg-(--bg-2) py-20" id="contact">
       <div className="wrap space-y-4">
         <div className="sec-head reveal space-y-4">
           <div className="sec-kicker mono text-(--accent-2)">
@@ -517,10 +588,10 @@ export default function ContactSection() {
             fast.
           </p>
         </div>
-        <div className="contact-grid reveal grid grid-cols-2 gap-12">
-          <div className="contact-info space-y-4 [&_a]:bg-(--panel) [&_a]:border [&_a]:border-(--line) [&_a]:rounded-xl [&_a]:p-4 [&_svg]:bg-(--accent-deep-2) [&_svg]:w-12 [&_svg]:p-3 [&_svg]:h-12 [&_svg]:rounded-xl [&_a]:flex [&_a]:items-center [&_a]:gap-x-4 [&__span]:flex [&_span]:flex-col ">
+        <div className="contact-grid reveal grid gap-12 lg:grid-cols-2">
+          <div className="contact-info space-y-4 [&__span]:flex [&_a]:flex [&_a]:items-center [&_a]:gap-x-4 [&_a]:rounded-xl [&_a]:border [&_a]:border-(--line) [&_a]:bg-(--panel) [&_a]:p-4 [&_span]:flex-col [&_svg]:h-12 [&_svg]:w-12 [&_svg]:rounded-xl [&_svg]:bg-(--accent-deep-2) [&_svg]:p-3">
             <a
-              className="ci-row flex "
+              className="ci-row transform-y flex transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
               href="mailto:nathaniel.tekalgn@email.com"
             >
               <span className="ci-ico">
@@ -532,7 +603,7 @@ export default function ContactSection() {
               </span>
             </a>
             <a
-              className="ci-row"
+              className="ci-row transform-y transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
               href="https://github.com"
               target="_blank"
               rel="noopener"
@@ -546,7 +617,7 @@ export default function ContactSection() {
               </span>
             </a>
             <a
-              className="ci-row"
+              className="ci-row transform-y transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
               href="https://www.linkedin.com"
               target="_blank"
               rel="noopener"
@@ -559,7 +630,10 @@ export default function ContactSection() {
                 linkedin.com/in/nathaniel-t
               </span>
             </a>
-            <a className="ci-row" href="#">
+            <a
+              className="ci-row transform-y transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
+              href="#"
+            >
               <span className="ci-ico">
                 <MapPin />
               </span>
@@ -569,67 +643,83 @@ export default function ContactSection() {
               </span>
             </a>
           </div>
-          <form className="contact-form [&_input]:bg-(--bg) border border-(--line) rounded-xl p-8 space-y-8 bg-(--panel)" id="contactForm" noValidate>
-            <div className="form-row grid grid-cols-2 gap-4 bg">
-                <div className="field">
-                  <label htmlFor="cf-name">
-                    <span className="accent text-(--accent-2) tracking-wide ">const </span>
-                    name =
-                  </label>
-                  <input
-                    id="cf-name"
-                    name="name"
-                    type="text"
-                    placeholder="Your name"
-                    required
-                    className="w-full p-2 rounded-lg"
-                  />
-                </div>
-                <div className="field">
-                  <label htmlFor="cf-email">
-                    <span className="accent text-(--accent-2) tracking-wide">const </span>
-                    email =
-                  </label>
-                  <input
-                    id="cf-email"
-                    name="email"
-                    type="email"
-                    placeholder="you@email.com"
-                    required
-                    className="w-full p-2 rounded-lg"
-                  />
-                </div>
-              
+          <form
+            className="contact-form space-y-8 rounded-xl border border-(--line) bg-(--panel) p-8 [&_input]:bg-(--bg) [&_input]:transition-all [&_input]:duration-200 [&_input]:focus:ring-2 [&_input]:focus:ring-(--accent-2) [&_input]:focus:outline-hidden"
+            id="contactForm"
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            <div className="form-row bg grid grid-cols-2 gap-4">
+              <div className="field">
+                <label htmlFor="cf-name">
+                  <span className="accent tracking-wide text-(--accent-2)">
+                    const{" "}
+                  </span>
+                  name =
+                </label>
+                <input
+                  id="cf-name"
+                  name="name"
+                  onChange={handleChange}
+                  className="w-full rounded-lg p-2"
+                  type="text"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="cf-email">
+                  <span className="accent tracking-wide text-(--accent-2)">
+                    const{" "}
+                  </span>
+                  email =
+                </label>
+                <input
+                  id="cf-email"
+                  name="email"
+                  className="w-full rounded-lg p-2"
+                  type="email"
+                  onChange={handleChange}
+                  placeholder="you@email.com"
+                  required
+                />
+              </div>
             </div>
             <div className="field flex flex-col gap-2">
               <label htmlFor="cf-subject w-full">
-                <span className="accent text-(--accent-2) tracking-wide">const </span>
+                <span className="accent tracking-wide text-(--accent-2)">
+                  const{" "}
+                </span>
                 subject =
               </label>
               <input
                 id="cf-subject"
-                className="w-full p-2 rounded-lg"
+                className="w-full rounded-lg p-2"
+                onChange={handleChange}
                 name="subject"
                 type="text"
                 placeholder="What's this about?"
-                
               />
             </div>
             <div className="field flex flex-col gap-2">
               <label htmlFor="cf-msg ">
-                <span className="accent">let </span>
+                <span className="accent text-(--accent-2)">let </span>
                 message =
                 <br />
               </label>
               <textarea
                 id="cf-msg"
-                className="w-full min-h-32.5 bg-(--bg) rounded-xl p-2.5"
+                className="min-h-32.5 w-full rounded-xl bg-(--bg) p-2.5 transition-all duration-200 focus:ring-2 focus:ring-(--accent-2) focus:outline-hidden"
                 name="message"
                 placeholder="Tell me about your project..."
                 required
+                onChange={handleChange}
               ></textarea>
             </div>
-            <button className="btn solid" type="submit">
+            <button
+              type="submit"
+              className="btn solid cursor-pointer rounded-lg border border-(--accent-2) px-5 py-2 transition-all duration-200 hover:bg-(--accent-2) hover:text-(--bg) hover:shadow-[0_8px_30px_-8px_var(--accent-2)]"
+            >
               Send message →
             </button>
             <div className="form-ok" id="formOk"></div>
@@ -642,27 +732,41 @@ export default function ContactSection() {
 </file>
 
 <file path="sections/footer.tsx">
+const links = [
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Contact", href: "#contact" },
+];
 export default function FooterSection() {
   return (
-    <footer className="site py-10">
-      <div className="wrap foot-grid flex justify-between items-center px-10">
+    <footer className="site w-full bg-(--bg-nav) py-10">
+      <div className="wrap foot-grid flex items-center justify-between px-10">
         <div className="">
           <div className="logo mb-4">
             <span className="br text-(--accent-2)">&lt;N/&gt; </span>
             Nathaniel Tekalgn
           </div>
-          <div className="foot-copy text-(--muted-2) text-sm">
+          <div className="foot-copy text-sm text-(--muted-2)">
             © <span id="year">{new Date().getFullYear() + " "}</span>
             Nathaniel Tekalgn — built with care &amp; clean code.
           </div>
         </div>
-        <nav className="foot-links space-x-4 text-(--muted)">
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
+        <nav className="foot-links flex gap-2 space-x-4 tracking-wide">
+          {links.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="text-(--muted) transition-all duration-200 ease-in-out hover:border-(--accent-2) hover:text-(--accent-2)"
+            >
+              {link.name}
+            </a>
+          ))}
         </nav>
-        <a className="to-top text-(--muted)" href="#home">
+        <a
+          className="to-top text-(--muted) transition-all duration-200 ease-in-out hover:border-(--accent-2) hover:text-(--accent-2)"
+          href="#home"
+        >
           ↑ back to top
         </a>
       </div>
@@ -707,10 +811,9 @@ const baseBadge = "absolute w-19 h-19 border border-(--line-strong) grid place-i
 const badgeSmall = "block text-[0.58rem] text-(--muted) font-extrabold";
 export default function HeroSection() {
   return (
-    <section className="hero pl-9 pt-17.5 pb-22.5 " id="home">
-      {/* <div className="hero-watermark">React · Next · Mobile</div> */}
+    <section className="hero w-full py-22.5 " id="home">
       <div
-        className="code-rail absolute left-2 top-30 bottom-10 w-11.5 flex flex-col gap-1.5  opacity-50"
+        className="code-rail absolute left-2 top-50 bottom-10 w-11.5 lg:flex flex-col hidden gap-1.5  opacity-50"
         id="codeRail"
       >
         {lineNumbers.map((n) => (
@@ -719,7 +822,7 @@ export default function HeroSection() {
           </span>
         ))}
       </div>
-      <div className="wrap hero-grid grid grid-cols-2">
+      <div className="wrap hero-grid flex flex-col-reverse lg:grid grid-cols-2">
         <div className="hero-copy [&_.tag]:text-[0.95rem] [&_.tag]:tracking-[0.02rem] [&_.tag]:text-(--muted-2) space-y-4">
           <div className="tag hero-eyebrow mb-0 ">&lt;/html&gt;</div>
           <div className="tag ">&lt;body&gt;</div>
@@ -840,14 +943,14 @@ const secKicker =
   "my-4 space-x-2 text-(--accent-2) before:mr-2 before:mb-1 before:inline-block before:h-px before:w-8.5 before:bg-(--accent-2) before:align-middle before:content-[''] tracking-wider";
 export default function ProjectsSection() {
   return (
-    <section className="block alt px-20 py-24 bg-(--bg-2)" id="projects">
+    <section className="block alt w-full py-24 bg-(--bg-2)" id="projects">
       <div className="wrap space-y-4">
         <div className="sec-head reveal space-y-2">
           <div className={`${secKicker} sec-kicker mono tracking-wider`}>03 — projects.map()</div>
           <h2 className="sec-title text-[clamp(2rem,4vw,2.9rem)] font-bold">Selected work</h2>
           <p className="sec-sub text-(--muted)">A few of the things I've built:</p>
         </div>
-        <div className="proj-grid reveal grid grid-cols-2 gap-4" id="projGrid">
+        <div className="proj-grid reveal grid lg:grid-cols-2 gap-4" id="projGrid">
           {PROJECTS.map((p) => (
             <div
               key={p.t}
@@ -962,7 +1065,7 @@ const secKicker =
   "my-4 space-x-2 text-(--accent-2) before:mr-2 before:mb-1 before:inline-block before:h-px before:w-8.5 before:bg-(--accent-2) before:align-middle before:content-[''] tracking-wider";
 export default function ServicesSection() {
   return (
-    <section className="block p-20" id="services">
+    <section className="block w-full py-20" id="services">
       <div className="wrap space-y-8">
         <div className="sec-head reveal space-y-4">
           <div className={`${secKicker} sec-kicker mono tracking-wider`}>
@@ -975,7 +1078,7 @@ export default function ServicesSection() {
             From first wireframe to production deploy.
           </p>
         </div>
-        <div className="serv-grid reveal grid grid-cols-3 gap-4" id="servGrid">
+        <div className="serv-grid reveal grid lg:grid-cols-3 gap-4" id="servGrid">
           {SERVICES.map((s) => (
             <div
               key={s.t}
@@ -1058,7 +1161,7 @@ export default function SkillsSections() {
           </p>
         </div>
         <div
-          className="skills-grid reveal grid grid-flow-col grid-rows-2 gap-4.5"
+          className="skills-grid reveal grid grid-flow-col grid-rows-4 lg:grid-rows-2  lg:grid-cols-4 gap-5"
           id="skillsGrid"
         >
           {SKILLS.map((s) => (

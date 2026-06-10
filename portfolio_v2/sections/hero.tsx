@@ -35,7 +35,7 @@ export default function HeroSection() {
   return (
     <section className="hero w-full py-22.5 " id="home">
       <div
-        className="code-rail absolute left-2 top-30 bottom-10 w-11.5 flex flex-col gap-1.5  opacity-50"
+        className="code-rail absolute left-2 top-50 bottom-10 w-11.5 lg:flex flex-col hidden gap-1.5  opacity-50"
         id="codeRail"
       >
         {lineNumbers.map((n) => (
@@ -44,7 +44,7 @@ export default function HeroSection() {
           </span>
         ))}
       </div>
-      <div className="wrap hero-grid grid grid-cols-2">
+      <div className="wrap hero-grid flex flex-col-reverse lg:grid grid-cols-2">
         <div className="hero-copy [&_.tag]:text-[0.95rem] [&_.tag]:tracking-[0.02rem] [&_.tag]:text-(--muted-2) space-y-4">
           <div className="tag hero-eyebrow mb-0 ">&lt;/html&gt;</div>
           <div className="tag ">&lt;body&gt;</div>

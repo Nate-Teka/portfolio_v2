@@ -44,7 +44,7 @@ const secKicker =
 
 export default function SkillsSections() {
   return (
-    <section className="block px-20 py-24" id="skills">
+    <section className="block w-full py-20" id="skills">
       <div className="wrap space-y-4">
         <div className="sec-head reveal space-y-3">
           <div className={`${secKicker} sec-kicker mono`}>
@@ -59,7 +59,7 @@ export default function SkillsSections() {
           </p>
         </div>
         <div
-          className="skills-grid reveal grid grid-flow-col grid-rows-2 gap-4.5"
+          className="skills-grid reveal grid grid-flow-col grid-rows-4 lg:grid-rows-2  lg:grid-cols-4 gap-5"
           id="skillsGrid"
         >
           {SKILLS.map((s) => (

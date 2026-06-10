@@ -60,7 +60,7 @@ export default function ServicesSection() {
             From first wireframe to production deploy.
           </p>
         </div>
-        <div className="serv-grid reveal grid grid-cols-3 gap-4" id="servGrid">
+        <div className="serv-grid reveal grid lg:grid-cols-3 gap-4" id="servGrid">
           {SERVICES.map((s) => (
             <div
               key={s.t}

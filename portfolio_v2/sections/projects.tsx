@@ -45,7 +45,7 @@ export default function ProjectsSection() {
           <h2 className="sec-title text-[clamp(2rem,4vw,2.9rem)] font-bold">Selected work</h2>
           <p className="sec-sub text-(--muted)">A few of the things I've built:</p>
         </div>
-        <div className="proj-grid reveal grid grid-cols-2 gap-4" id="projGrid">
+        <div className="proj-grid reveal grid lg:grid-cols-2 gap-4" id="projGrid">
           {PROJECTS.map((p) => (
             <div
               key={p.t}
@@ -62,7 +62,7 @@ export default function ProjectsSection() {
                     <a href={p.u}>{p.u}</a>
                   </div>
                 </div>
-                <div className="proj-screenshot h-66 overflow-hidden">
+                <div className="proj-screenshot  overflow-hidden">
                   <div className="ph-in">
                     <div className="ph-ic">
                       <svg
@@ -70,6 +70,7 @@ export default function ProjectsSection() {
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.6"
+                        
                       >
                         <rect x="3" y="4" width="18" height="15" rx="2" />
                         <circle cx="8.5" cy="9" r="1.6" />

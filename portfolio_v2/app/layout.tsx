@@ -28,14 +28,14 @@ export default function RootLayout({
               Nathaniel Tekalgn
             </a>
             <nav
-              className="flex items-center gap-6 text-[0.92rem] text-(--muted)"
+              className="lg:flex hidden items-center gap-6 text-[0.92rem] text-(--muted)"
               id="navLinks"
             >
               {links.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="flex items-center gap-2 text-zinc-400 transition-all duration-200 hover:rounded-full hover:bg-(--panel-2) hover:p-2 hover:text-(--accent-2)"
+                  className="flex items-center gap-2 text-zinc-400 transition-all duration-200 hover:rounded-full hover:bg-(--panel-2) hover:p-2 hover:text-(--accent-2) "
                 >
                   {link.name}
                 </a>

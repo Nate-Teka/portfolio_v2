@@ -1,9 +1,62 @@
+"use client";
 import { Mail, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
 
 export default function ContactSection() {
+  const [userInput, setUserInput] = useState({
+    fullName: "",
+    email: "",
+    subject: "",
+    messageBox: "",
+  });
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserInput({
+      ...userInput,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (
+      !userInput.fullName ||
+      !userInput.email ||
+      !userInput.subject ||
+      !userInput.messageBox
+    ) {
+      toast.error("Please fill out all fields");
+      return;
+    } else {
+      console.log(userInput);
+    }
+
+    try {
+      const emailParams = {
+        fullName: userInput.fullName,
+        email: userInput.email,
+        subject: userInput.subject,
+        messageBox: userInput.messageBox,
+      };
+      const res = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
+        emailParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
+      );
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+    }
+    console.log("Service:", process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
+    console.log("Template:", process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
+    console.log("Public Key:", process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
+  };
   return (
-    <section className="block alt w-full py-20 bg-(--bg-2)" id="contact">
+    <section className="alt block w-full bg-(--bg-2) py-20" id="contact">
       <div className="wrap space-y-4">
         <div className="sec-head reveal space-y-4">
           <div className="sec-kicker mono text-(--accent-2)">
@@ -17,10 +70,10 @@ export default function ContactSection() {
             fast.
           </p>
         </div>
-        <div className="contact-grid reveal grid grid-cols-2 gap-12">
-          <div className="contact-info space-y-4 [&_a]:bg-(--panel) [&_a]:border [&_a]:border-(--line) [&_a]:rounded-xl [&_a]:p-4 [&_svg]:bg-(--accent-deep-2) [&_svg]:w-12 [&_svg]:p-3 [&_svg]:h-12 [&_svg]:rounded-xl [&_a]:flex [&_a]:items-center [&_a]:gap-x-4 [&__span]:flex [&_span]:flex-col ">
+        <div className="contact-grid reveal grid gap-12 lg:grid-cols-2">
+          <div className="contact-info space-y-4 [&__span]:flex [&_a]:flex [&_a]:items-center [&_a]:gap-x-4 [&_a]:rounded-xl [&_a]:border [&_a]:border-(--line) [&_a]:bg-(--panel) [&_a]:p-4 [&_span]:flex-col [&_svg]:h-12 [&_svg]:w-12 [&_svg]:rounded-xl [&_svg]:bg-(--accent-deep-2) [&_svg]:p-3">
             <a
-              className="ci-row flex "
+              className="ci-row transform-y flex transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
               href="mailto:nathaniel.tekalgn@email.com"
             >
               <span className="ci-ico">
@@ -32,7 +85,7 @@ export default function ContactSection() {
               </span>
             </a>
             <a
-              className="ci-row"
+              className="ci-row transform-y transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
               href="https://github.com"
               target="_blank"
               rel="noopener"
@@ -46,7 +99,7 @@ export default function ContactSection() {
               </span>
             </a>
             <a
-              className="ci-row"
+              className="ci-row transform-y transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
               href="https://www.linkedin.com"
               target="_blank"
               rel="noopener"
@@ -59,7 +112,10 @@ export default function ContactSection() {
                 linkedin.com/in/nathaniel-t
               </span>
             </a>
-            <a className="ci-row" href="#">
+            <a
+              className="ci-row transform-y transition-all duration-200 hover:scale-101 hover:border-(--accent-2) hover:bg-(--panel-2) hover:text-(--accent-2)"
+              href="#"
+            >
               <span className="ci-ico">
                 <MapPin />
               </span>
@@ -69,67 +125,83 @@ export default function ContactSection() {
               </span>
             </a>
           </div>
-          <form className="contact-form [&_input]:bg-(--bg) border border-(--line) rounded-xl p-8 space-y-8 bg-(--panel)" id="contactForm" noValidate>
-            <div className="form-row grid grid-cols-2 gap-4 bg">
-                <div className="field">
-                  <label htmlFor="cf-name">
-                    <span className="accent text-(--accent-2) tracking-wide ">const </span>
-                    name =
-                  </label>
-                  <input
-                    id="cf-name"
-                    name="name"
-                    type="text"
-                    placeholder="Your name"
-                    required
-                    className="w-full p-2 rounded-lg"
-                  />
-                </div>
-                <div className="field">
-                  <label htmlFor="cf-email">
-                    <span className="accent text-(--accent-2) tracking-wide">const </span>
-                    email =
-                  </label>
-                  <input
-                    id="cf-email"
-                    name="email"
-                    type="email"
-                    placeholder="you@email.com"
-                    required
-                    className="w-full p-2 rounded-lg"
-                  />
-                </div>
-              
+          <form
+            className="contact-form space-y-8 rounded-xl border border-(--line) bg-(--panel) p-8 [&_input]:bg-(--bg) [&_input]:transition-all [&_input]:duration-200 [&_input]:focus:ring-2 [&_input]:focus:ring-(--accent-2) [&_input]:focus:outline-hidden"
+            id="contactForm"
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            <div className="form-row bg grid grid-cols-2 gap-4">
+              <div className="field">
+                <label htmlFor="cf-name">
+                  <span className="accent tracking-wide text-(--accent-2)">
+                    const{" "}
+                  </span>
+                  name =
+                </label>
+                <input
+                  id="cf-name"
+                  name="fullName"
+                  onChange={handleChange}
+                  className="w-full rounded-lg p-2"
+                  type="text"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="cf-email">
+                  <span className="accent tracking-wide text-(--accent-2)">
+                    const{" "}
+                  </span>
+                  email =
+                </label>
+                <input
+                  id="cf-email"
+                  name="email"
+                  className="w-full rounded-lg p-2"
+                  type="email"
+                  onChange={handleChange}
+                  placeholder="you@email.com"
+                  required
+                />
+              </div>
             </div>
             <div className="field flex flex-col gap-2">
               <label htmlFor="cf-subject w-full">
-                <span className="accent text-(--accent-2) tracking-wide">const </span>
+                <span className="accent tracking-wide text-(--accent-2)">
+                  const{" "}
+                </span>
                 subject =
               </label>
               <input
                 id="cf-subject"
-                className="w-full p-2 rounded-lg"
+                className="w-full rounded-lg p-2"
+                onChange={handleChange}
                 name="subject"
                 type="text"
                 placeholder="What's this about?"
-                
               />
             </div>
             <div className="field flex flex-col gap-2">
               <label htmlFor="cf-msg ">
-                <span className="accent">let </span>
+                <span className="accent text-(--accent-2)">let </span>
                 message =
                 <br />
               </label>
               <textarea
                 id="cf-msg"
-                className="w-full min-h-32.5 bg-(--bg) rounded-xl p-2.5"
-                name="message"
+                className="min-h-32.5 w-full rounded-xl bg-(--bg) p-2.5 transition-all duration-200 focus:ring-2 focus:ring-(--accent-2) focus:outline-hidden"
+                name="messageBox"
                 placeholder="Tell me about your project..."
                 required
+                onChange={handleChange}
               ></textarea>
             </div>
-            <button className="btn solid hover:shadow-[0_8px_30px_-8px_var(--accent-2)] hover:bg-(--accent-2) rounded-lg cursor-pointer px-5 transition-all py-2 duration-200 hover:text-(--bg) border border-(--accent-2)" type="submit">
+            <button
+              type="submit"
+              className="btn solid cursor-pointer rounded-lg border border-(--accent-2) px-5 py-2 transition-all duration-200 hover:bg-(--accent-2) hover:text-(--bg) hover:shadow-[0_8px_30px_-8px_var(--accent-2)]"
+            >
               Send message →
             </button>
             <div className="form-ok" id="formOk"></div>
