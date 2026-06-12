@@ -131,7 +131,7 @@ export default function ContactSection() {
             onSubmit={handleSubmit}
             noValidate
           >
-            <div className="form-row bg grid grid-cols-2 gap-4">
+            <div className="form-row bg grid lg:grid-cols-2 gap-4">
               <div className="field">
                 <label htmlFor="cf-name">
                   <span className="accent tracking-wide text-(--accent-2)">

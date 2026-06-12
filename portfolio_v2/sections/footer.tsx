@@ -7,8 +7,8 @@ const links = [
 export default function FooterSection() {
   return (
     <footer className="site w-full bg-(--bg-nav) py-10">
-      <div className="wrap foot-grid flex items-center justify-between px-10">
-        <div className="">
+      <div className="wrap foot-grid lg:flex items-center justify-between space-y-4">
+        <div className="text-center">
           <div className="logo mb-4">
             <span className="br text-(--accent-2)">&lt;N/&gt; </span>
             Nathaniel Tekalgn
@@ -18,7 +18,7 @@ export default function FooterSection() {
             Nathaniel Tekalgn — built with care &amp; clean code.
           </div>
         </div>
-        <nav className="foot-links flex gap-2 space-x-4 tracking-wide">
+        <nav className="foot-links flex lg:gap-2 space-x-4 tracking-wide justify-center lg:justify-start">
           {links.map((link) => (
             <a
               key={link.name}
@@ -30,7 +30,7 @@ export default function FooterSection() {
           ))}
         </nav>
         <a
-          className="to-top text-(--muted) transition-all duration-200 ease-in-out hover:border-(--accent-2) hover:text-(--accent-2)"
+          className="to-top text-(--muted) transition-all duration-200 ease-in-out hover:border-(--accent-2) hover:text-(--accent-2) lg:inline block text-center mb-4"
           href="#home"
         >
           ↑ back to top

@@ -3,7 +3,7 @@
 
 @theme {
   /* Define the animation shorthand */
-  --animate-bob: bob 5s ease-in-out infinite;
+  --animate-bob: bob 3s ease-in-out infinite;
 
   /* Define the keyframes movement */
   @keyframes bob {
@@ -65,4 +65,16 @@ body {
   max-width: var(--maxw);
   margin-inline: auto;
   padding-inline: 3.1rem;
+}
+.b1{
+  animation-delay: 1000ms;
+  
+}
+.b2{
+  animation-delay: 150ms;
+  
+}
+.b3{
+  animation-delay: 450ms;
+  
 }
